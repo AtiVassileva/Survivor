@@ -139,7 +139,7 @@ namespace Survivor.Models
                     .Select(x => x.Name)));
             
             sb
-                .Append("Monsters: ")
+                .AppendLine("Monsters: ")
                 .AppendLine(string.Join("\n", this.monsters
                     .Select(x => x.ToString())));
             
