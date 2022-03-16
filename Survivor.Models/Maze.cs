@@ -28,7 +28,9 @@ namespace Survivor.Models
         public Room FindRoomByName(string name)
         {
             var room = this.rooms
-                .FirstOrDefault(x => x.Name == name);
+                .FirstOrDefault(x => 
+                    x.Name.ToLower() 
+                    == name.ToLower());
 
             if (room == null)
             {

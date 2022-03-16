@@ -70,6 +70,7 @@ namespace Survivor.Core
                 case "go":
                     var roomName = input[2];
                     GoToRoom(roomName);
+                    Console.WriteLine(player.GetCurrentLocation());
                     break;
                 case "items":
                     PrintPlayerItems();
@@ -77,10 +78,12 @@ namespace Survivor.Core
                 case "pickup":
                     var itemName = input[1];
                     PickUpItem(itemName);
+                    PrintPlayerItems();
                     break;
                 case "drop":
                     var item = input[1];
                     DropItem(item);
+                    PrintPlayerItems();
                     break;
                 default:
                     throw new InvalidOperationException("Invalid command!");
@@ -109,7 +112,7 @@ namespace Survivor.Core
         {
             var room = this.maze.FindRoomByName(roomName);
             this.player.ChangeCurrentRoom(room);
-            Console.WriteLine($"Welcome to {roomName}!");
+            Console.WriteLine($"Welcome to {room.Name}!");
             Console.WriteLine(room.ToString());
         }
 
@@ -121,6 +124,7 @@ namespace Survivor.Core
             }
             else
             {
+                Console.WriteLine("Picked up items: ");
                 foreach (var playerItem in this.player.Backpack.Items)
                 {
                     Console.WriteLine(playerItem);
@@ -135,18 +139,17 @@ namespace Survivor.Core
                 throw new ArgumentException("You have to go to a room to pick up items!");
             }
 
-            var item = this.player.CurrentRoom.Items
-                .FirstOrDefault(x => x.Name == itemName);
+            var item = this.player.CurrentRoom.FindItem(itemName);
 
             this.player.Backpack.AddItem(item);
             this.player.CurrentRoom.RemoveItem(item);
+
             Console.WriteLine($"Successfully picked up {itemName}!");
         }
 
         private void DropItem(string itemName)
         {
-            var item = this.player.CurrentRoom.Items
-                .FirstOrDefault(x => x.Name == itemName);
+            var item = this.player.CurrentRoom.FindItem(itemName);
 
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);

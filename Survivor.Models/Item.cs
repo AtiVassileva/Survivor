@@ -44,6 +44,6 @@ namespace Survivor.Models
         }
 
         public override string ToString() 
-            => $"Name: {this.Name}; Weight: {this.Weight} kg.";
+            => $"{this.Name} ({this.Weight} kg.)";
     }
 }

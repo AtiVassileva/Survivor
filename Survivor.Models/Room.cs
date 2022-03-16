@@ -50,6 +50,21 @@ namespace Survivor.Models
             this.items.Remove(item);
         }
 
+        public Item FindItem(string itemName)
+        {
+            var item = this.items
+                .FirstOrDefault(x => 
+                    string.Equals(x.Name, itemName, 
+                        StringComparison.CurrentCultureIgnoreCase));
+
+            if (item == null)
+            {
+                throw new ArgumentException(NonExistingItemExceptionMsg);
+            }
+
+            return item;
+        }
+
         public void AddExit(Exit exit) => this.exits.Add(exit);
 
         public override string ToString()

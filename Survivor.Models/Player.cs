@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Survivor.Models
@@ -42,13 +43,11 @@ namespace Survivor.Models
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"Current location: {this.Name}")
-                .AppendLine("Available exits: ");
-
-            foreach (var exit in this.CurrentRoom.Exits)
-            {
-                sb.Append(exit.Name);
-            }
+            sb.AppendLine($"Current location: {this.CurrentRoom.Name}")
+                .Append("Available exits: ")
+                .Append(string.Join(", ", 
+                this.CurrentRoom.Exits
+                .Select(x => x.Name)));
 
             return sb.ToString().Trim();
         }
