@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Survivor.Core.Seeders;
 using Survivor.Factories;
 using Survivor.Models;
 
@@ -10,16 +11,13 @@ namespace Survivor.Core
     {
         private Player player;
         private Maze maze;
-
-        public Engine()
-        {
-        }
-
+        
         public void Run()
         {
-            InitializePlayer();
-            InitializeMaze();
-            InitializeRooms();
+            this.player = TestSeeder.InitializePlayer();
+            this.maze = TestSeeder.InitializeMaze(this.player);
+            TestSeeder.InitializeRooms(this.maze);
+
             StartGame();
         }
 
@@ -154,60 +152,6 @@ namespace Survivor.Core
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);
             Console.WriteLine($"Successfully dropped {itemName}!");
-        }
-
-        private void InitializePlayer()
-        {
-            Console.Write("Player name: ");
-            var name = Console.ReadLine();
-
-            Console.Write("Backpack capacity: ");
-            var capacity = int.Parse(Console.ReadLine());
-
-            var backpack = BackpackFactory.CreateBackpack(capacity);
-            var playerInstance = PlayerFactory.CreatePlayer(name, backpack);
-
-            this.player = playerInstance;
-        }
-
-        private void InitializeMaze()
-        {
-            var mazeInstance = new Maze(this.player);
-            this.maze = mazeInstance;
-        }
-
-        private void InitializeRooms()
-        {
-            var room1 = RoomFactory.CreateRoom("First-Room");
-
-            var banana = ItemFactory.CreateItem("Banana", 0.1);
-            var sword = ItemFactory.CreateItem("Sword", 0.5);
-            var bomb = ItemFactory.CreateItem("Bomb", 1.2);
-
-            room1.AddItem(banana);
-            room1.AddItem(sword);
-            room1.AddItem(bomb);
-
-            var doorExit = new Exit("Door");
-            var windowExit = new Exit("Window");
-            var shaftExit = new Exit("Shaft");
-
-            room1.AddExit(doorExit);
-            room1.AddExit(windowExit);
-            room1.AddExit(shaftExit);
-
-            var room2 = RoomFactory.CreateRoom("Hell");
-
-            room2.AddItem(banana);
-            room2.AddItem(sword);
-            room2.AddItem(bomb);
-
-            room2.AddExit(doorExit);
-            room2.AddExit(windowExit);
-            room2.AddExit(shaftExit);
-
-            this.maze.AddRoom(room1);
-            this.maze.AddRoom(room2);
         }
     }
 }
