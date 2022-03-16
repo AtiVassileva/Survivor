@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Survivor.Factories\Survivor.Factories.csproj" />
     <ProjectReference Include="..\Survivor.Models\Survivor.Models.csproj" />
   </ItemGroup>
 

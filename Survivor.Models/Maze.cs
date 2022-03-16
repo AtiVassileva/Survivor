@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Survivor.Models
 {
@@ -35,6 +36,20 @@ namespace Survivor.Models
             }
 
             return room;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(new string('-', 70));
+
+            sb.Append("Maze available rooms: ");
+
+            var roomNames = this.rooms.Select(x => x.Name).ToArray();
+            sb.Append(string.Join(", ", roomNames));
+
+            return sb.ToString().Trim();
         }
     }
 }

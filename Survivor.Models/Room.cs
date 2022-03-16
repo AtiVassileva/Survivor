@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Survivor.Models
 {
@@ -38,16 +40,43 @@ namespace Survivor.Models
 
         public void AddItem(Item item) => this.items.Add(item);
 
-        //public void RemoveItem(Item item)
-        //{
-        //    if (!this.items.Contains(item))
-        //    {
-        //        throw new ArgumentException();
-        //    }
+        public void RemoveItem(Item item)
+        {
+            if (!this.items.Contains(item))
+            {
+                throw new ArgumentException();
+            }
 
-        //    this.items.Remove(item);
-        //}
+            this.items.Remove(item);
+        }
 
         public void AddExit(Exit exit) => this.exits.Add(exit);
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("Available items:");
+
+            if (!this.Items.Any())
+            {
+                sb.AppendLine("No available items.");
+            }
+            else
+            {
+                foreach (var item in this.items)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+            }
+
+            sb
+                .Append("Exits: ")
+                .AppendLine(string.Join(", ", this.exits
+                    .Select(x => x.Name)));
+            
+            sb.AppendLine(new string('-', 70));
+            return sb.ToString().Trim();
+        }
     }
 }

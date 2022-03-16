@@ -42,5 +42,8 @@ namespace Survivor.Models
                 this.weight = value;
             }
         }
+
+        public override string ToString() 
+            => $"Name: {this.Name}; Weight: {this.Weight} kg.";
     }
 }

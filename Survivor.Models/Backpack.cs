@@ -42,12 +42,17 @@ namespace Survivor.Models
                 throw new ArgumentException(UnableToAddItemToBackpackExceptionMsg);
             }
 
+            if (item == null)
+            {
+                throw new NullReferenceException(NullItemExceptionMsg);
+            }
+
             this.items.Add(item);
         }
 
         public void DropItem(Item item)
         {
-            if (!ContainsItem(item))
+            if (!ContainsItem(item) || item == null)
             {
                 throw new ArgumentException(NonExistingItemExceptionMsg);
             }

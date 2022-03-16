@@ -1,30 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Survivor.Factories;
 using Survivor.Models;
 
 namespace Survivor.Core
 {
     public class Engine
     {
-        private readonly Player player;
-        private readonly Maze maze;
+        private Player player;
+        private Maze maze;
 
-
-        public Engine(Maze maze, Player player)
+        public Engine()
         {
-            this.maze = maze;
-            this.player = player;
         }
 
         public void Run()
         {
+            InitializePlayer();
+            InitializeMaze();
+            InitializeRooms();
             StartGame();
         }
 
         private void StartGame()
         {
+            Console.WriteLine($"Welcome, {this.player.Name}! Enter a command... (type 'help' if you need some.)");
+            Console.WriteLine(this.maze.ToString());
+
+            Console.Write("Your command: ");
 
             while (true)
             {
@@ -42,33 +46,7 @@ namespace Survivor.Core
 
                 try
                 {
-                    switch (command.ToLower())
-                    {
-                        case "help":
-                            Console.WriteLine("Available commands:");
-                            PrintCommands();
-                            break;
-                        case "location":
-                            Console.WriteLine(this.player.GetCurrentLocation());
-                            break;
-                        case "go":
-                            var roomName = input[2];
-                            GoToRoom(roomName);
-                            break;
-                        case "items":
-                            PrintPlayerItems();
-                            break;
-                        case "pickup":
-                            var itemName = input[1];
-                            PickUpItem(itemName);
-                            break;
-                        case "drop":
-                            var item = input[1];
-                            DropItem(item);
-                            break;
-                        default:
-                            throw new InvalidOperationException("Invalid command!");
-                    }
+                    ParseCommand(command, input);
                 }
                 catch (Exception e)
                 {
@@ -79,6 +57,37 @@ namespace Survivor.Core
             }
 
             Environment.Exit(0);
+        }
+
+        private void ParseCommand(string command, string[] input)
+        {
+            switch (command.ToLower())
+            {
+                case "help":
+                    Console.WriteLine("Available commands:");
+                    PrintCommands();
+                    break;
+                case "location":
+                    Console.WriteLine(player.GetCurrentLocation());
+                    break;
+                case "go":
+                    var roomName = input[2];
+                    GoToRoom(roomName);
+                    break;
+                case "items":
+                    PrintPlayerItems();
+                    break;
+                case "pickup":
+                    var itemName = input[1];
+                    PickUpItem(itemName);
+                    break;
+                case "drop":
+                    var item = input[1];
+                    DropItem(item);
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid command!");
+            }
         }
 
         private static void PrintCommands()
@@ -103,14 +112,22 @@ namespace Survivor.Core
         {
             var room = this.maze.FindRoomByName(roomName);
             this.player.ChangeCurrentRoom(room);
-            Console.WriteLine($"Successfully moved to {roomName}!");
+            Console.WriteLine($"Welcome to {roomName}!");
+            Console.WriteLine(room.ToString());
         }
 
         private void PrintPlayerItems()
         {
-            foreach (var playerItem in this.player.Backpack.Items)
+            if (!this.player.Backpack.Items.Any())
             {
-                Console.WriteLine(playerItem);
+                Console.WriteLine("No items in backpack.");
+            }
+            else
+            {
+                foreach (var playerItem in this.player.Backpack.Items)
+                {
+                    Console.WriteLine(playerItem);
+                }
             }
         }
 
@@ -124,12 +141,8 @@ namespace Survivor.Core
             var item = this.player.CurrentRoom.Items
                 .FirstOrDefault(x => x.Name == itemName);
 
-            if (item == null)
-            {
-                throw new ArgumentException();
-            }
-
             this.player.Backpack.AddItem(item);
+            this.player.CurrentRoom.RemoveItem(item);
             Console.WriteLine($"Successfully picked up {itemName}!");
         }
 
@@ -138,14 +151,63 @@ namespace Survivor.Core
             var item = this.player.CurrentRoom.Items
                 .FirstOrDefault(x => x.Name == itemName);
 
-            if (!this.player.Backpack.ContainsItem(item))
-            {
-                throw new ArgumentException();
-            }
-
             this.player.Backpack.DropItem(item);
-            // TODO: this.player.CurrentRoom.AddItem(item);
+            this.player.CurrentRoom.AddItem(item);
             Console.WriteLine($"Successfully dropped {itemName}!");
+        }
+
+        private void InitializePlayer()
+        {
+            Console.Write("Player name: ");
+            var name = Console.ReadLine();
+
+            Console.Write("Backpack capacity: ");
+            var capacity = int.Parse(Console.ReadLine());
+
+            var backpack = BackpackFactory.CreateBackpack(capacity);
+            var playerInstance = PlayerFactory.CreatePlayer(name, backpack);
+
+            this.player = playerInstance;
+        }
+
+        private void InitializeMaze()
+        {
+            var mazeInstance = new Maze(this.player);
+            this.maze = mazeInstance;
+        }
+
+        private void InitializeRooms()
+        {
+            var room1 = RoomFactory.CreateRoom("First-Room");
+
+            var banana = ItemFactory.CreateItem("Banana", 0.1);
+            var sword = ItemFactory.CreateItem("Sword", 0.5);
+            var bomb = ItemFactory.CreateItem("Bomb", 1.2);
+
+            room1.AddItem(banana);
+            room1.AddItem(sword);
+            room1.AddItem(bomb);
+
+            var doorExit = new Exit("Door");
+            var windowExit = new Exit("Window");
+            var shaftExit = new Exit("Shaft");
+
+            room1.AddExit(doorExit);
+            room1.AddExit(windowExit);
+            room1.AddExit(shaftExit);
+
+            var room2 = RoomFactory.CreateRoom("Hell");
+
+            room2.AddItem(banana);
+            room2.AddItem(sword);
+            room2.AddItem(bomb);
+
+            room2.AddExit(doorExit);
+            room2.AddExit(windowExit);
+            room2.AddExit(shaftExit);
+
+            this.maze.AddRoom(room1);
+            this.maze.AddRoom(room2);
         }
     }
 }

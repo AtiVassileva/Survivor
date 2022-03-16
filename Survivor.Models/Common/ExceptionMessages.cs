@@ -22,5 +22,8 @@
 
         public const string PlayerNotInRoomExceptionMsg =
             "Player is currently not in any room!";
+
+        public const string NullItemExceptionMsg =
+            "Item cannot be null!";
     }
 }
