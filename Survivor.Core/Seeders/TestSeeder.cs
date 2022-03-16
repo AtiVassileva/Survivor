@@ -7,15 +7,14 @@ namespace Survivor.Core.Seeders
 {
     public static class TestSeeder
     {
+        private const int BackpackTestCapacity = 5;
+
         public static Player InitializePlayer()
         {
             Console.Write("Player name: ");
             var name = Console.ReadLine();
 
-            Console.Write("Backpack capacity: ");
-            var capacity = int.Parse(Console.ReadLine());
-
-            var backpack = BackpackFactory.CreateBackpack(capacity);
+            var backpack = BackpackFactory.CreateBackpack(BackpackTestCapacity);
             var playerInstance = PlayerFactory.CreatePlayer(name, backpack);
 
             return playerInstance;

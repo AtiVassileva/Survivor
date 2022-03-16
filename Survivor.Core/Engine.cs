@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Survivor.Core.Seeders;
-using Survivor.Factories;
 using Survivor.Models;
 
 namespace Survivor.Core
@@ -26,10 +25,10 @@ namespace Survivor.Core
             Console.WriteLine($"Welcome, {this.player.Name}! Enter a command... (type 'help' if you need some.)");
             Console.WriteLine(this.maze.ToString());
 
-            Console.Write("Your command: ");
-
             while (true)
             {
+                Console.Write("Your command: ");
+
                 var input =
                     Console.ReadLine()
                         .Split(" ")

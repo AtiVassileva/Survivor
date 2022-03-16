@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Survivor.Models
 {
@@ -32,10 +33,25 @@ namespace Survivor.Models
 
         public Room CurrentRoom { get; private set; }
 
-        public string GetCurrentLocation() 
-            => CurrentRoom == null 
-                ? PlayerNotInRoomExceptionMsg
-                : CurrentRoom.Name;
+        public string GetCurrentLocation()
+        {
+            if (this.CurrentRoom == null)
+            {
+                return PlayerNotInRoomExceptionMsg;
+            }
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"Current location: {this.Name}")
+                .AppendLine("Available exits: ");
+
+            foreach (var exit in this.CurrentRoom.Exits)
+            {
+                sb.Append(exit.Name);
+            }
+
+            return sb.ToString().Trim();
+        }
 
         public void ChangeCurrentRoom(Room nextRoom) => this.CurrentRoom = nextRoom;
     }
