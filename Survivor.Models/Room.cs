@@ -38,15 +38,15 @@ namespace Survivor.Models
 
         public void AddItem(Item item) => this.items.Add(item);
 
-        public void RemoveItem(Item item)
-        {
-            if (!this.items.Contains(item))
-            {
-                throw new ArgumentException();
-            }
+        //public void RemoveItem(Item item)
+        //{
+        //    if (!this.items.Contains(item))
+        //    {
+        //        throw new ArgumentException();
+        //    }
 
-            this.items.Remove(item);
-        }
+        //    this.items.Remove(item);
+        //}
 
         public void AddExit(Exit exit) => this.exits.Add(exit);
     }

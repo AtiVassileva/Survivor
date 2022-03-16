@@ -19,5 +19,8 @@
 
         public const string NonExistingRoomExceptionMsg =
             "Room does not exist!";
+
+        public const string PlayerNotInRoomExceptionMsg =
+            "Player is currently not in any room!";
     }
 }

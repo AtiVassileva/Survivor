@@ -35,7 +35,7 @@ namespace Survivor.Models
 
         public string GetCurrentLocation() 
             => CurrentRoom == null 
-                ? "Player is currently not in any room" 
+                ? PlayerNotInRoomExceptionMsg
                 : CurrentRoom.Name;
 
         public void ChangeCurrentRoom(Room nextRoom) => this.CurrentRoom = nextRoom;

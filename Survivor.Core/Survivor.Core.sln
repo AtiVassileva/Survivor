@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survivor.Core", "Survivor.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survivor.Models", "..\Survivor.Models\Survivor.Models.csproj", "{992E5A8D-D458-4A4F-9649-6F3DA5F58CE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survivor.Factories", "..\Survivor.Factories\Survivor.Factories.csproj", "{78BD9BFC-2486-4FD3-9356-BADCCD813087}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{992E5A8D-D458-4A4F-9649-6F3DA5F58CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{992E5A8D-D458-4A4F-9649-6F3DA5F58CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{992E5A8D-D458-4A4F-9649-6F3DA5F58CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78BD9BFC-2486-4FD3-9356-BADCCD813087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78BD9BFC-2486-4FD3-9356-BADCCD813087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78BD9BFC-2486-4FD3-9356-BADCCD813087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78BD9BFC-2486-4FD3-9356-BADCCD813087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

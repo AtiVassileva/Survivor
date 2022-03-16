@@ -31,7 +31,7 @@ namespace Survivor.Models
 
             if (room == null)
             {
-                throw new ArgumentException();
+                throw new ArgumentException(NonExistingRoomExceptionMsg);
             }
 
             return room;
