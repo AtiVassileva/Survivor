@@ -29,8 +29,9 @@ namespace Survivor.Models
         {
             var room = this.rooms
                 .FirstOrDefault(x => 
-                    x.Name.ToLower() 
-                    == name.ToLower());
+                    string.Equals(x.Name, name, 
+                        StringComparison
+                            .CurrentCultureIgnoreCase));
 
             if (room == null)
             {

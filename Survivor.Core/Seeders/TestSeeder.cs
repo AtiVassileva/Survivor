@@ -32,12 +32,16 @@ namespace Survivor.Core.Seeders
 
             var testItems = CreateTestItems();
             AddItemsInRoom(heavenRoom, testItems);
+
             var testExits = CreateTestExits();
             AddExitsToRoom(heavenRoom, testExits);
-
+    
             var hellRoom = RoomFactory.CreateRoom("Hell");
+            var monsters = CreateMonsters();
+
             AddItemsInRoom(hellRoom, testItems);
             AddExitsToRoom(hellRoom, testExits);
+            AddMonstersInRoom(hellRoom, monsters);
 
             maze.AddRoom(heavenRoom);
             maze.AddRoom(hellRoom);
@@ -61,6 +65,15 @@ namespace Survivor.Core.Seeders
             return new List<Exit> { doorExit, windowExit, shaftExit };
         }
 
+        private static IEnumerable<Monster> CreateMonsters()
+        {
+            var kraken = MonsterFactory.CreateMonster("Kraken", 60);
+            var dragon = MonsterFactory.CreateMonster("Dracus", 30);
+            var bee = MonsterFactory.CreateMonster("Bee", 10);
+
+            return new List<Monster> { kraken, dragon, bee };
+        }
+
         private static void AddItemsInRoom(Room room, IEnumerable<Item> items)
         {
             foreach (var item in items)
@@ -74,6 +87,14 @@ namespace Survivor.Core.Seeders
             foreach (var exit in exits)
             {
                 room.AddExit(exit);
+            }
+        }
+
+        private static void AddMonstersInRoom(Room room, IEnumerable<Monster> monsters)
+        {
+            foreach (var monster in monsters)
+            {
+                room.AddMonster(monster);
             }
         }
     }

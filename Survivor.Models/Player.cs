@@ -8,12 +8,16 @@ namespace Survivor.Models
 
     public class Player
     {
+        private const int MaxHealth = 100;
+
         private readonly string name;
+        private int health;
 
         public Player(string name, Backpack backpack)
         {
             this.Name = name;
             this.Backpack = backpack;
+            this.health = MaxHealth;
         }
 
         public string Name
@@ -31,6 +35,10 @@ namespace Survivor.Models
         }
 
         public Backpack Backpack { get; }
+
+        public int Health => this.health;
+
+        public bool IsDead => this.Health <= 0;
 
         public Room CurrentRoom { get; private set; }
 
@@ -53,5 +61,18 @@ namespace Survivor.Models
         }
 
         public void ChangeCurrentRoom(Room nextRoom) => this.CurrentRoom = nextRoom;
+
+        public string FightMonster(Monster monster)
+        {
+            if (monster.Damage >= this.Health)
+            {
+                this.health = 0;
+                return $"You die! {monster.Name} defeated you!";
+            }
+
+            this.health -= monster.Damage;
+            this.CurrentRoom.RemoveMonster(monster);
+            return $"Congratulations! You defeated {monster.Name}! Remaining health: {this.Health}";
+        }
     }
 }

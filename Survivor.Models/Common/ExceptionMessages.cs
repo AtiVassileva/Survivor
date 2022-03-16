@@ -16,6 +16,9 @@
 
         public const string NonExistingItemExceptionMsg =
             "Backpack does not contain such item!";
+        
+        public const string NonExistingMonsterExceptionMsg =
+            "Monster does not exist!";
 
         public const string NonExistingRoomExceptionMsg =
             "Room does not exist!";
@@ -25,5 +28,11 @@
 
         public const string NullItemExceptionMsg =
             "Item cannot be null!";
+        
+        public const string NullMonsterExceptionMsg =
+            "Monster cannot be null!";
+
+        public const string InvalidDamageExceptionMsg =
+            "Damage cannot be less or equal to 0!";
     }
 }

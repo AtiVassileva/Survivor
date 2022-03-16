@@ -27,6 +27,11 @@ namespace Survivor.Core
 
             while (true)
             {
+                if (this.player.IsDead)
+                {
+                    break;
+                }
+
                 Console.Write("Your command: ");
 
                 var input =
@@ -61,7 +66,6 @@ namespace Survivor.Core
             switch (command.ToLower())
             {
                 case "help":
-                    Console.WriteLine("Available commands:");
                     PrintCommands();
                     break;
                 case "location":
@@ -85,6 +89,10 @@ namespace Survivor.Core
                     DropItem(item);
                     PrintPlayerItems();
                     break;
+                case "fight":
+                    var monsterName = input[1];
+                    FightMonster(monsterName);
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid command!");
             }
@@ -92,6 +100,8 @@ namespace Survivor.Core
 
         private static void PrintCommands()
         {
+            Console.WriteLine("Available commands:");
+
             var commands = new List<string>
             {
                 "location",
@@ -99,6 +109,7 @@ namespace Survivor.Core
                 "items",
                 "pickup {item name}",
                 "drop {item name}",
+                "fight {monster name}",
                 "quit"
             };
 
@@ -154,6 +165,13 @@ namespace Survivor.Core
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);
             Console.WriteLine($"Successfully dropped {itemName}!");
+        }
+
+        private void FightMonster(string monsterName)
+        {
+            var monster = this.player.CurrentRoom.FindMonster(monsterName);
+            var fightResult = this.player.FightMonster(monster);
+            Console.WriteLine(fightResult);
         }
     }
 }
