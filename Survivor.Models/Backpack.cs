@@ -6,6 +6,7 @@ using System.Text;
 namespace Survivor.Models
 {
     using static Common.ExceptionMessages;
+    using static Common.GlobalConstants;
 
     public class Backpack
     {
@@ -69,18 +70,19 @@ namespace Survivor.Models
 
             if (!this.Items.Any())
             {
-                sb.AppendLine( "No items in backpack.");
+                sb.AppendLine(NoItemsInBackpackMsg);
             }
             else
             {
-               sb.AppendLine("Picked up items: ");
+                sb.AppendLine(AvailableItemsMsg);
 
-                foreach (var item in this.Items)
+               foreach (var item in this.Items)
                 {
                     sb.AppendLine(item.ToString());
                 }
             }
 
+            sb.AppendLine(Separator);
             return sb.ToString().Trim();
         }
     }

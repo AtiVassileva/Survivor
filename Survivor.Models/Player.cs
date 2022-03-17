@@ -6,6 +6,7 @@ using Survivor.Models.Enums;
 namespace Survivor.Models
 {
     using static Common.ExceptionMessages;
+    using static Common.GlobalConstants;
 
     public class Player
     {
@@ -75,18 +76,18 @@ namespace Survivor.Models
         {
             if (this.Backpack.Items.All(x => x.Category != Category.Weapon))
             {
-                return "You need a weapon to fight a monster!";
+                return NoWeaponMsg;
             }
 
             if (monster.Damage >= this.Health)
             {
                 this.health = 0;
-                return $"You die! {monster.Name} defeated you!";
+                return string.Format(DefeatedByMonsterMsg, monster.Name);
             }
 
             this.health -= monster.Damage;
             this.CurrentRoom.RemoveMonster(monster);
-            return $"Congratulations! You defeated {monster.Name}! {this.HealthStatus}";
+            return string.Format(DefeatedMonsterMsg, monster.Name, this.HealthStatus);
         }
 
         public void UpdateHealthStatus(Item item)
@@ -111,27 +112,27 @@ namespace Survivor.Models
         {
             var result = exit.ExitType switch
             {
-                ExitType.Door => ExitRoom(Category.Key),
-                ExitType.Window => ExitRoom(Category.Hammer),
-                ExitType.Shaft => ExitRoom(Category.Weapon),
+                ExitType.Door => ExitRoom(Category.Key, ExitType.Door),
+                ExitType.Window => ExitRoom(Category.Hammer, ExitType.Window),
+                ExitType.Shaft => ExitRoom(Category.Weapon, ExitType.Shaft),
                 _ => string.Empty
             };
 
             return result;
         }
 
-        private string ExitRoom(Category category)
+        private string ExitRoom(Category category, ExitType exitType)
         {
             string result;
 
             if (this.Backpack.Items.Any(x => x.Category == category))
             {
-                result = $"Successfully exited {this.CurrentRoom.Name}";
+                result = string.Format(SuccessfullyExitedRoomMsg, this.CurrentRoom.Name);
                 this.ChangeCurrentRoom(null);
             }
             else
             {
-                result = "You need an item of type key in order to exit through a door!";
+                result = string.Format(FailedExecutionMsg, category, exitType);
             }
 
             return result;

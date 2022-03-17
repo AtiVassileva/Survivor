@@ -6,7 +6,7 @@ using System.Text;
 namespace Survivor.Models
 {
     using static Common.ExceptionMessages;
-
+    using static Common.GlobalConstants;
     public class Maze
     {
         private readonly ICollection<Room> rooms;
@@ -22,8 +22,6 @@ namespace Survivor.Models
         public ICollection<Room> Rooms => this.rooms;
 
         public void AddRoom(Room room) => this.rooms.Add(room);
-
-        public bool ContainsRoom (Room room) => this.rooms.Contains(room);
 
         public Room FindRoomByName(string name)
         {
@@ -45,11 +43,14 @@ namespace Survivor.Models
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(new string('-', 70));
+            sb.AppendLine(Separator);
 
-            sb.Append("Maze available rooms: ");
+            sb.Append(AvailableRoomsMsg);
 
-            var roomNames = this.rooms.Select(x => x.Name).ToArray();
+            var roomNames = this.rooms
+                .Select(x => x.Name)
+                .ToArray();
+
             sb.Append(string.Join(", ", roomNames));
 
             return sb.ToString().Trim();

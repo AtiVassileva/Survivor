@@ -6,6 +6,7 @@ using System.Text;
 namespace Survivor.Models
 {
     using static Common.ExceptionMessages;
+    using static Common.GlobalConstants;
 
     public class Room
     {
@@ -134,11 +135,11 @@ namespace Survivor.Models
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine("Available items:");
+            sb.AppendLine(AvailableItemsMsg);
 
             if (!this.Items.Any())
             {
-                sb.AppendLine("No available items.");
+                sb.AppendLine(NoAvailableItemsMsg);
             }
             else
             {
@@ -159,7 +160,8 @@ namespace Survivor.Models
                     .Select(x => x.ToString())));
             
             
-            sb.AppendLine(new string('-', 70));
+            sb.AppendLine(Separator);
+
             return sb.ToString().Trim();
         }
     }
