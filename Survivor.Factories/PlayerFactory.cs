@@ -1,5 +1,4 @@
-﻿using System;
-using Survivor.Models;
+﻿using Survivor.Models;
 
 namespace Survivor.Factories
 {
