@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Survivor.Factories;
 using Survivor.Models;
+using Survivor.Models.Enums;
 
 namespace Survivor.Core.Seeders
 {
@@ -30,16 +31,17 @@ namespace Survivor.Core.Seeders
         {
             var heavenRoom = RoomFactory.CreateRoom("Heaven");
 
-            var testItems = CreateTestItems();
-            AddItemsInRoom(heavenRoom, testItems);
+            var heavenItems = CreateHeavenItems();
+            AddItemsInRoom(heavenRoom, heavenItems);
 
             var testExits = CreateTestExits();
             AddExitsToRoom(heavenRoom, testExits);
     
             var hellRoom = RoomFactory.CreateRoom("Hell");
             var monsters = CreateMonsters();
+            var hellItems = CreateHellItems();
 
-            AddItemsInRoom(hellRoom, testItems);
+            AddItemsInRoom(hellRoom, hellItems);
             AddExitsToRoom(hellRoom, testExits);
             AddMonstersInRoom(hellRoom, monsters);
 
@@ -47,13 +49,26 @@ namespace Survivor.Core.Seeders
             maze.AddRoom(hellRoom);
         }
 
-        private static IEnumerable<Item> CreateTestItems()
+        private static IEnumerable<Item> CreateHellItems()
         {
-            var banana = ItemFactory.CreateItem("Banana", 0.1);
-            var sword = ItemFactory.CreateItem("Sword", 0.5);
-            var bomb = ItemFactory.CreateItem("Bomb", 1.2);
+            var banana = ItemFactory.CreateItem("Banana", 0.1, Category.Food);
+            var sword = ItemFactory.CreateItem("Sword", 0.5, Category.Weapon);
+            var bomb = ItemFactory.CreateItem("Bomb", 1.2, Category.Weapon);
+            var hammer = ItemFactory.CreateItem("ClawHammer", 2, Category.Hammer);
+            var key = ItemFactory.CreateItem("GoldenKey", 0.2, Category.Key);
+            var poison = ItemFactory.CreateItem("Poison", 0.4, Category.DangerPotion);
 
-            return new List<Item> { banana, sword, bomb };
+            return new List<Item> { banana, sword, bomb, hammer, key, poison };
+        }
+        
+        private static IEnumerable<Item> CreateHeavenItems()
+        {
+            var chicken = ItemFactory.CreateItem("Chicken", 0.3, Category.Food);
+            var key = ItemFactory.CreateItem("GoldenKey", 0.2, Category.Key);
+            var elixir = ItemFactory.CreateItem("Elixir", 0.4, Category.HealthPotion);
+            var gem = ItemFactory.CreateItem("Gem", 0.2, Category.Currency);
+
+            return new List<Item> { chicken, key, elixir, gem };
         }
 
         private static IEnumerable<Exit> CreateTestExits()

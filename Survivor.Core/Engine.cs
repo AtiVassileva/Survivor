@@ -123,7 +123,7 @@ namespace Survivor.Core
         {
             var room = this.maze.FindRoomByName(roomName);
             this.player.ChangeCurrentRoom(room);
-            Console.WriteLine($"Welcome to {room.Name}!");
+            Console.WriteLine($"Welcome to {room.Name}! {this.player.HealthStatus}");
             Console.WriteLine(room.ToString());
         }
 
@@ -154,8 +154,9 @@ namespace Survivor.Core
 
             this.player.Backpack.AddItem(item);
             this.player.CurrentRoom.RemoveItem(item);
+            this.player.UpdateHealthStatus(item);
 
-            Console.WriteLine($"Successfully picked up {itemName}!");
+            Console.WriteLine($"Successfully picked up {item.Name}! {this.player.HealthStatus}");
         }
 
         private void DropItem(string itemName)
@@ -164,11 +165,17 @@ namespace Survivor.Core
 
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);
-            Console.WriteLine($"Successfully dropped {itemName}!");
+            Console.WriteLine($"Successfully dropped {item.Name}!");
         }
 
         private void FightMonster(string monsterName)
         {
+            if (this.player.CurrentRoom == null)
+            {
+                Console.WriteLine("You have to go to a room to fight monsters!");
+                return;
+            }
+
             var monster = this.player.CurrentRoom.FindMonster(monsterName);
             var fightResult = this.player.FightMonster(monster);
             Console.WriteLine(fightResult);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Survivor.Models.Enums;
 
 namespace Survivor.Models
 {
@@ -9,10 +10,11 @@ namespace Survivor.Models
         private readonly string name;
         private readonly double weight;
 
-        public Item(string name, double weight)
+        public Item(string name, double weight, Category category)
         {
             this.Name = name;
             this.Weight = weight;
+            this.Category = category;
         }
 
         public string Name
@@ -43,7 +45,9 @@ namespace Survivor.Models
             }
         }
 
+        public Category Category { get; }
+
         public override string ToString() 
-            => $"{this.Name} ({this.Weight} kg.)";
+            => $"{this.Name} ({this.Weight} kg.) - {this.Category}";
     }
 }
