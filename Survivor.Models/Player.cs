@@ -126,8 +126,8 @@ namespace Survivor.Models
 
             if (this.Backpack.Items.Any(x => x.Category == category))
             {
-                this.ChangeCurrentRoom(null);
                 result = $"Successfully exited {this.CurrentRoom.Name}";
+                this.ChangeCurrentRoom(null);
             }
             else
             {

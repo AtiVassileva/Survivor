@@ -29,6 +29,16 @@ namespace Survivor.Core.Seeders
 
         public static void InitializeRooms(Maze maze)
         {
+            var heavenRoom = CreateHeaven();
+
+            var hellRoom = CreateHell();
+
+            maze.AddRoom(heavenRoom);
+            maze.AddRoom(hellRoom);
+        }
+
+        private static Room CreateHeaven()
+        {
             var heavenRoom = RoomFactory.CreateRoom("Heaven");
 
             var heavenItems = CreateHeavenItems();
@@ -36,10 +46,12 @@ namespace Survivor.Core.Seeders
 
             var heavenExits = CreateHeavenExits();
             AddExitsToRoom(heavenRoom, heavenExits);
-    
-            var hellRoom = RoomFactory.CreateRoom("Hell");
+            return heavenRoom;
+        }
 
-            var monsters = CreateMonsters();
+        private static Room CreateHell()
+        {
+            var hellRoom = RoomFactory.CreateRoom("Hell");
 
             var hellItems = CreateHellItems();
             AddItemsInRoom(hellRoom, hellItems);
@@ -47,10 +59,9 @@ namespace Survivor.Core.Seeders
             var hellExits = CreateHellExits();
             AddExitsToRoom(hellRoom, hellExits);
 
+            var monsters = CreateMonsters();
             AddMonstersInRoom(hellRoom, monsters);
-
-            maze.AddRoom(heavenRoom);
-            maze.AddRoom(hellRoom);
+            return hellRoom;
         }
 
         private static IEnumerable<Item> CreateHellItems()
