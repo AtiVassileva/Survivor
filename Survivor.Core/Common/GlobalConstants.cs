@@ -19,5 +19,7 @@ namespace Survivor.Core.Common
         
         public const string SuccessfullyDroppedItemMessage =
             "Successfully dropped {0}!";
+
+        public const string GoodbyeMsg = "Goodbye survivor!";
     }
 }

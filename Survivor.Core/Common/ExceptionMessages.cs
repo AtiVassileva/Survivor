@@ -5,6 +5,6 @@
         public const string InvalidCommandExcMsg = "Invalid command!";
 
         public const string NotInARoomExcMsg 
-            = "You should be in a room in order to do complete action!";
+            = "You should be in a room in order to complete this action!";
     }
 }

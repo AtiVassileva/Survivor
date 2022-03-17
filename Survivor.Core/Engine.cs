@@ -61,6 +61,7 @@ namespace Survivor.Core
                 
             }
 
+            Console.WriteLine(GoodbyeMsg);
             Environment.Exit(0);
         }
 
