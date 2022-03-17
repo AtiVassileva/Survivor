@@ -6,6 +6,9 @@ using Survivor.Models;
 
 namespace Survivor.Core
 {
+    using static Common.GlobalConstants;
+    using static Common.ExceptionMessages;
+
     public class Engine
     {
         private Player player;
@@ -22,7 +25,7 @@ namespace Survivor.Core
 
         private void StartGame()
         {
-            Console.WriteLine($"Welcome, {this.player.Name}! Enter a command... (type 'help' if you need some.)");
+            Console.WriteLine(string.Format(WelcomeMessage, this.player.Name));
             Console.WriteLine(this.maze.ToString());
 
             while (true)
@@ -32,7 +35,7 @@ namespace Survivor.Core
                     break;
                 }
 
-                Console.Write("Your command: ");
+                Console.Write(CommandMessage);
 
                 var input =
                     Console.ReadLine()
@@ -41,7 +44,7 @@ namespace Survivor.Core
 
                 var command = input[0];
 
-                if (command.ToLower() == "quit")
+                if (command.ToLower() == QuitCommand)
                 {
                     break;
                 }
@@ -98,7 +101,7 @@ namespace Survivor.Core
                     ExitRoom(exitName);
                     break;
                 default:
-                    throw new InvalidOperationException("Invalid command!");
+                    throw new InvalidOperationException(InvalidCommandExcMsg);
             }
         }
 
@@ -128,31 +131,21 @@ namespace Survivor.Core
         {
             var room = this.maze.FindRoomByName(roomName);
             this.player.ChangeCurrentRoom(room);
-            Console.WriteLine($"Welcome to {room.Name}! {this.player.HealthStatus}");
+            Console.WriteLine(string.Format(WelcomeToRoomMessage, room.Name, this.player.HealthStatus));
             Console.WriteLine(room.ToString());
         }
 
         private void PrintPlayerItems()
         {
-            if (!this.player.Backpack.Items.Any())
-            {
-                Console.WriteLine("No items in backpack.");
-            }
-            else
-            {
-                Console.WriteLine("Picked up items: ");
-                foreach (var playerItem in this.player.Backpack.Items)
-                {
-                    Console.WriteLine(playerItem);
-                }
-            }
+            var itemsInfo = this.player.Backpack.ShowItems();
+            Console.WriteLine(itemsInfo);
         }
 
         private void PickUpItem(string itemName)
         {
             if (this.player.CurrentRoom == null)
             {
-                throw new ArgumentException("You have to go to a room to pick up items!");
+                throw new ArgumentException(NotInARoomExcMsg);
             }
 
             var item = this.player.CurrentRoom.FindItem(itemName);
@@ -161,7 +154,8 @@ namespace Survivor.Core
             this.player.CurrentRoom.RemoveItem(item);
             this.player.UpdateHealthStatus(item);
 
-            Console.WriteLine($"Successfully picked up {item.Name}! {this.player.HealthStatus}");
+            Console.WriteLine(string.Format(SuccessfullyPickedUpItemMessage, 
+                item.Name, this.player.HealthStatus));
         }
 
         private void DropItem(string itemName)
@@ -170,15 +164,14 @@ namespace Survivor.Core
 
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);
-            Console.WriteLine($"Successfully dropped {item.Name}!");
+            Console.WriteLine(string.Format(SuccessfullyDroppedItemMessage, item.Name));
         }
 
         private void FightMonster(string monsterName)
         {
             if (this.player.CurrentRoom == null)
             {
-                Console.WriteLine("You have to go to a room to fight monsters!");
-                return;
+                throw new ArgumentException(NotInARoomExcMsg);
             }
 
             var monster = this.player.CurrentRoom.FindMonster(monsterName);
@@ -190,8 +183,7 @@ namespace Survivor.Core
         {
             if (this.player.CurrentRoom == null)
             {
-                Console.WriteLine("You have to go to a room in order to exit it!");
-                return;
+                throw new ArgumentException(NotInARoomExcMsg);
             }
 
             var exit = this.player.CurrentRoom.FindExit(exitName);

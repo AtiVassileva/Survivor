@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Survivor.Models
 {
@@ -61,5 +62,26 @@ namespace Survivor.Models
         }
 
         public bool ContainsItem(Item item) => this.items.Contains(item);
+
+        public string ShowItems()
+        {
+            var sb = new StringBuilder();
+
+            if (!this.Items.Any())
+            {
+                sb.AppendLine( "No items in backpack.");
+            }
+            else
+            {
+               sb.AppendLine("Picked up items: ");
+
+                foreach (var item in this.Items)
+                {
+                    sb.AppendLine(item.ToString());
+                }
+            }
+
+            return sb.ToString().Trim();
+        }
     }
 }
