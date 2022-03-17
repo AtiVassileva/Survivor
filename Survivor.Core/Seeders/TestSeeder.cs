@@ -34,15 +34,19 @@ namespace Survivor.Core.Seeders
             var heavenItems = CreateHeavenItems();
             AddItemsInRoom(heavenRoom, heavenItems);
 
-            var testExits = CreateTestExits();
-            AddExitsToRoom(heavenRoom, testExits);
+            var heavenExits = CreateHeavenExits();
+            AddExitsToRoom(heavenRoom, heavenExits);
     
             var hellRoom = RoomFactory.CreateRoom("Hell");
-            var monsters = CreateMonsters();
-            var hellItems = CreateHellItems();
 
+            var monsters = CreateMonsters();
+
+            var hellItems = CreateHellItems();
             AddItemsInRoom(hellRoom, hellItems);
-            AddExitsToRoom(hellRoom, testExits);
+
+            var hellExits = CreateHellExits();
+            AddExitsToRoom(hellRoom, hellExits);
+
             AddMonstersInRoom(hellRoom, monsters);
 
             maze.AddRoom(heavenRoom);
@@ -71,11 +75,19 @@ namespace Survivor.Core.Seeders
             return new List<Item> { chicken, key, elixir, gem };
         }
 
-        private static IEnumerable<Exit> CreateTestExits()
+        private static IEnumerable<Exit> CreateHeavenExits()
         {
-            var doorExit = new Exit("Door");
-            var windowExit = new Exit("Window");
-            var shaftExit = new Exit("Shaft");
+            var doorExit = new Exit("Door", ExitType.Door);
+            var windowExit = new Exit("Window", ExitType.Window);
+
+            return new List<Exit> { doorExit, windowExit };
+        }
+        
+        private static IEnumerable<Exit> CreateHellExits()
+        {
+            var doorExit = new Exit("Door", ExitType.Door);
+            var windowExit = new Exit("Window", ExitType.Window);
+            var shaftExit = new Exit("Shaft", ExitType.Shaft);
 
             return new List<Exit> { doorExit, windowExit, shaftExit };
         }

@@ -106,6 +106,35 @@ namespace Survivor.Models
                     return;
             }
         }
-        
+
+        public string ExitCurrentRoom(Exit exit)
+        {
+            var result = exit.ExitType switch
+            {
+                ExitType.Door => ExitRoom(Category.Key),
+                ExitType.Window => ExitRoom(Category.Hammer),
+                ExitType.Shaft => ExitRoom(Category.Weapon),
+                _ => string.Empty
+            };
+
+            return result;
+        }
+
+        private string ExitRoom(Category category)
+        {
+            string result;
+
+            if (this.Backpack.Items.Any(x => x.Category == category))
+            {
+                this.ChangeCurrentRoom(null);
+                result = $"Successfully exited {this.CurrentRoom.Name}";
+            }
+            else
+            {
+                result = "You need an item of type key in order to exit through a door!";
+            }
+
+            return result;
+        }
     }
 }

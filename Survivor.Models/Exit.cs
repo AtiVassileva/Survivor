@@ -1,4 +1,5 @@
 ﻿using System;
+using Survivor.Models.Enums;
 
 namespace Survivor.Models
 {
@@ -8,9 +9,10 @@ namespace Survivor.Models
     {
         private readonly string name;
 
-        public Exit(string name)
+        public Exit(string name, ExitType exitType)
         {
             this.Name = name;
+            this.ExitType = exitType;
         }
 
         public string Name
@@ -26,5 +28,9 @@ namespace Survivor.Models
                 this.name = value;
             }
         }
+
+        public ExitType ExitType { get; }
+
+        public override string ToString() => $"{this.Name} ({this.ExitType})";
     }
 }

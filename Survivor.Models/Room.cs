@@ -115,6 +115,21 @@ namespace Survivor.Models
             return monster;
         }
 
+        public Exit FindExit(string exitName)
+        {
+            var exit = this.exits
+                .FirstOrDefault(x =>
+                        string.Equals(x.Name, exitName,
+                    StringComparison.CurrentCultureIgnoreCase));
+
+            if (exit == null)
+            {
+                throw new ArgumentException(NonExistingExitExceptionMsg);
+            }
+
+            return exit;
+        }
+
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -136,7 +151,7 @@ namespace Survivor.Models
             sb
                 .Append("Exits: ")
                 .AppendLine(string.Join(", ", this.exits
-                    .Select(x => x.Name)));
+                    .Select(x => x.ToString())));
             
             sb
                 .AppendLine("Monsters: ")

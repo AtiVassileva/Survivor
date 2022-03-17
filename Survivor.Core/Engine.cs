@@ -93,6 +93,10 @@ namespace Survivor.Core
                     var monsterName = input[1];
                     FightMonster(monsterName);
                     break;
+                case "exit":
+                    var exitName = input[1];
+                    ExitRoom(exitName);
+                    break;
                 default:
                     throw new InvalidOperationException("Invalid command!");
             }
@@ -110,6 +114,7 @@ namespace Survivor.Core
                 "pickup {item name}",
                 "drop {item name}",
                 "fight {monster name}",
+                "exit {exit name}",
                 "quit"
             };
 
@@ -179,6 +184,19 @@ namespace Survivor.Core
             var monster = this.player.CurrentRoom.FindMonster(monsterName);
             var fightResult = this.player.FightMonster(monster);
             Console.WriteLine(fightResult);
+        }
+
+        private void ExitRoom(string exitName)
+        {
+            if (this.player.CurrentRoom == null)
+            {
+                Console.WriteLine("You have to go to a room in order to exit it!");
+                return;
+            }
+
+            var exit = this.player.CurrentRoom.FindExit(exitName);
+            var exitResult = this.player.ExitCurrentRoom(exit);
+            Console.WriteLine(exitResult);
         }
     }
 }

@@ -19,6 +19,9 @@
         
         public const string NonExistingMonsterExceptionMsg =
             "Monster does not exist!";
+        
+        public const string NonExistingExitExceptionMsg =
+            "Exit does not exist!";
 
         public const string NonExistingRoomExceptionMsg =
             "Room does not exist!";
