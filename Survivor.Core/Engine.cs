@@ -82,6 +82,9 @@ namespace Survivor.Core
                 case "items":
                     PrintPlayerItems();
                     break;
+                case "health":
+                    Console.WriteLine(this.player.HealthStatus);
+                    break;
                 case "pickup":
                     var itemName = input[1];
                     PickUpItem(itemName);
@@ -114,6 +117,7 @@ namespace Survivor.Core
                 "location",
                 "go to {room name}",
                 "items",
+                "health",
                 "pickup {item name}",
                 "drop {item name}",
                 "fight {monster name}",
@@ -160,8 +164,7 @@ namespace Survivor.Core
 
         private void DropItem(string itemName)
         {
-            var item = this.player.CurrentRoom.FindItem(itemName);
-
+            var item = this.player.Backpack.FindItem(itemName);
             this.player.Backpack.DropItem(item);
             this.player.CurrentRoom.AddItem(item);
             Console.WriteLine(string.Format(SuccessfullyDroppedItemMessage, item.Name));

@@ -15,7 +15,7 @@
             "Item cannot be added! Not enough backback capacity!";
 
         public const string NonExistingItemExceptionMsg =
-            "Backpack does not contain such item!";
+            "No such item!";
         
         public const string NonExistingMonsterExceptionMsg =
             "Monster does not exist!";

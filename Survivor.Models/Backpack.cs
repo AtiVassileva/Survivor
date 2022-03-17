@@ -62,6 +62,19 @@ namespace Survivor.Models
             this.items.Remove(item);
         }
 
+        public Item FindItem(string itemName)
+        {
+            var item = this.Items
+                .FirstOrDefault(x => string.Equals(x.Name, itemName, 
+                    StringComparison.CurrentCultureIgnoreCase));
+
+            if (item == null)
+            {
+                throw new ArgumentException(NonExistingItemExceptionMsg);
+            }
+
+            return item;
+        }
         public bool ContainsItem(Item item) => this.items.Contains(item);
 
         public string ShowItems()

@@ -58,7 +58,7 @@ namespace Survivor.Models
         {
             if (!this.items.Contains(item))
             {
-                throw new ArgumentException();
+                throw new ArgumentException(NonExistingItemExceptionMsg);
             }
 
             this.items.Remove(item);
